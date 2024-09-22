@@ -3,12 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import pg from "pg";
 
-const cors = cors();
-const dotenv = dotenv();
-
 dotenv.config();
-
-const pg = pg();
 
 const dbConnectionString = process.env.DATABASE_URL;
 export const db = new pg.Pool({
@@ -20,13 +15,26 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const PORT = 8080;
+const PORT = 5173;
 app.listen(PORT, () => {
   console.log(`Server is running in PORT ${PORT}`);
 });
 
-app.get("/", (req, res) => {
-  res.json({ message: "Are you looking at my root route" });
+app.get("/tribute-data", (req, res) => {
+  const query = db.query(`SELECT * FROM tributes`);
+  res.json(query.rows);
+  console.log(query);
+});
+
+app.get("/api", (req, res) => {
+  res.json();
+});
+app.get("/tributes", async (req, res) => {
+  const API = `https://mxddfxilasdrmmownbvl.supabase.co`;
+  const response = await fetch(API);
+  const tributeData = await response.json();
+
+  res.json(tributeData.results);
 });
 
 //we need to access express, cors, pg and dotenv

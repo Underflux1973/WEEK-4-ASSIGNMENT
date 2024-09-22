@@ -8,14 +8,15 @@ const tributeForm = document.getElementById("tribute-form");
 const usersTributesContainer = document.getElementById(
   "users-tributes-container"
 );
+const submitButton = document.getElementById("submit");
 
-function handleSubmit(event) {
+function handleSubmitButton(event) {
   event.preventDefault();
   const formData = new FormData(tributeForm);
   const formValues = Object.fromEntries(formData);
   console.log(formValues);
 
-  fetch("http://localhost:8080/tribute-data", {
+  fetch("http://localhost:5173/tribute-data", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -24,8 +25,8 @@ function handleSubmit(event) {
   });
 }
 
-tributeForm.addEventListener("submit", handleSubmit);
-
+tributeForm.addEventListener("submit", handleSubmitButton);
+console.log(handleSubmitButton);
 //FORM
 //we need an event to submit the form data
 // the event handler
